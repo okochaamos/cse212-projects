@@ -34,12 +34,17 @@ public static class Arrays
         // 3. Use GetRange again to get the beginning of the list (up to data.Count - amount).
         // 4. Clear the original list and add both ranges back in the correct rotated order.
 
-        int splitPoint = data.Count - amount;
-        List<int> tail = data.GetRange(splitPoint, amount);
-        List<int> head = data.GetRange(0, splitPoint);
+         // Step 1: Extract the last 'amount' elements using GetRange
+        List<int> endPart = data.GetRange(data.Count - amount, amount);
 
+        // Step 2: Extract the remaining front part
+        List<int> frontPart = data.GetRange(0, data.Count - amount);
+
+        // Step 3: Clear the original list
         data.Clear();
-        data.AddRange(tail);
-        data.AddRange(head);
+
+        // Step 4: Add the two parts in rotated order
+        data.AddRange(endPart);
+        data.AddRange(frontPart);
     }
 }
