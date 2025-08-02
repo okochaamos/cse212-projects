@@ -32,8 +32,12 @@ public class Maze
     /// </summary>
     public void MoveLeft()
     {
-        // FILL IN CODE
+        var current = (_currX, _currY);
+        if (!_mazeMap[current][0])
+            throw new InvalidOperationException("Cannot go that way!");
+        _currX--;
     }
+
 
     /// <summary>
     /// Check to see if you can move right.  If you can, then move.  If you
@@ -41,7 +45,10 @@ public class Maze
     /// </summary>
     public void MoveRight()
     {
-        // FILL IN CODE
+        var current = (_currX, _currY);
+        if (!_mazeMap[current][1])
+            throw new InvalidOperationException("Cannot go that way!");
+        _currX++;
     }
 
     /// <summary>
@@ -50,7 +57,10 @@ public class Maze
     /// </summary>
     public void MoveUp()
     {
-        // FILL IN CODE
+        var current = (_currX, _currY);
+        if (!_mazeMap[current][2])
+            throw new InvalidOperationException("Cannot go that way!");
+        _currY--;
     }
 
     /// <summary>
@@ -59,9 +69,11 @@ public class Maze
     /// </summary>
     public void MoveDown()
     {
-        // FILL IN CODE
+        var current = (_currX, _currY);
+        if (!_mazeMap[current][3])
+            throw new InvalidOperationException("Cannot go that way!");
+        _currY++;
     }
-
     public string GetStatus()
     {
         return $"Current location (x={_currX}, y={_currY})";

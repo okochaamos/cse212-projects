@@ -21,8 +21,24 @@ public static class SetsAndMaps
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
     public static string[] FindPairs(string[] words)
     {
-        // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+        var seen = new HashSet<string>();
+        var result = new List<string>();
+
+        foreach (var word in words)
+        {
+            if (word[0] == word[1])
+                continue; 
+
+            string reversed = new string(new[] { word[1], word[0] });
+            if (seen.Contains(reversed))
+            {
+                result.Add($"{word} & {reversed}");
+            }
+            seen.Add(word);
+        }
+
+        return result.ToArray();
+        
     }
 
     /// <summary>
@@ -42,8 +58,18 @@ public static class SetsAndMaps
         foreach (var line in File.ReadLines(filename))
         {
             var fields = line.Split(",");
-            // TODO Problem 2 - ADD YOUR CODE HERE
+            if (fields.Length < 4)
+            continue; 
+
+            string degree = fields[3].Trim();
+
+            if (degrees.ContainsKey(degree))
+                degrees[degree]++;
+            else
+                degrees[degree] = 1;
         }
+
+    
 
         return degrees;
     }
@@ -66,9 +92,41 @@ public static class SetsAndMaps
     /// </summary>
     public static bool IsAnagram(string word1, string word2)
     {
-        // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+        // Clean input: remove spaces and convert to lowercase
+        string clean1 = new string(word1.ToLower().Where(c => c != ' ').ToArray());
+        string clean2 = new string(word2.ToLower().Where(c => c != ' ').ToArray());
+
+        // If lengths differ, can't be anagrams
+        if (clean1.Length != clean2.Length)
+            return false;
+
+        var dict = new Dictionary<char, int>();
+
+        // Count letters in first word
+        foreach (char c in clean1)
+        {
+            if (dict.ContainsKey(c))
+                dict[c]++;
+            else
+                dict[c] = 1;
+        }
+
+        // Subtract counts using second word
+        foreach (char c in clean2)
+        {
+            if (!dict.ContainsKey(c))
+                return false;
+
+            dict[c]--;
+
+            if (dict[c] < 0)
+                return false;
+        }
+
+        return true;
     }
+
+    
 
     /// <summary>
     /// This function will read JSON (Javascript Object Notation) data from the 
